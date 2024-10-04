@@ -90,7 +90,7 @@
     <hr>
 
     <div style="text-align: center; margin-top: 64px; margin-bottom: 64px;">
-        <a id="downloadLink" class="btn btn-primary btn-lg" role="button">Click to download</a>
+        <a id="downloadLink" class="btn btn-primary btn-lg" role="button" style="pointer-events: none; opacity: 0.5;" disabled>Click to download</a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
@@ -126,11 +126,26 @@
             }
         });
 
+        nationalIDInput.addEventListener('input', function () {
+            const nationalID = nationalIDInput.value.trim();
+            const nationalIDRegex = /^\d{14}$/; // 14-digit number regex
+
+            if (nationalIDRegex.test(nationalID)) {
+                downloadLink.style.pointerEvents = 'auto'; // Enable the download link
+                downloadLink.style.opacity = '1'; // Make it fully visible
+                downloadLink.removeAttribute('disabled');
+            } else {
+                downloadLink.style.pointerEvents = 'none'; // Disable the download link
+                downloadLink.style.opacity = '0.5'; // Make it semi-transparent
+                downloadLink.setAttribute('disabled', 'true');
+            }
+        });
+
         downloadLink.addEventListener('click', function () {
             const nationalID = nationalIDInput.value.trim();
-
-            // Validate the National ID
             const nationalIDRegex = /^\d{14}$/; // 14-digit number regex
+
+            // Prevent download if National ID is invalid
             if (!nationalIDRegex.test(nationalID)) {
                 alert("Please enter a valid National ID (الرقم القومى) consisting of exactly 14 digits.");
                 return;
