@@ -129,8 +129,10 @@
         downloadLink.addEventListener('click', function () {
             const nationalID = nationalIDInput.value.trim();
 
-            if (!nationalID) {
-                alert("Please enter your National ID (الرقم القومى) before downloading.");
+            // Validate the National ID
+            const nationalIDRegex = /^\d{14}$/; // 14-digit number regex
+            if (!nationalIDRegex.test(nationalID)) {
+                alert("Please enter a valid National ID (الرقم القومى) consisting of exactly 14 digits.");
                 return;
             }
 
